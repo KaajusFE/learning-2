@@ -1,0 +1,14 @@
+body{
+    background-color: gray;
+}
+#ciag, #fi{
+    display: inline-block;
+    margin-right: 50px;
+}
+
+.odd, .even{
+    color: #999;
+}
+.ratio{
+    color: #ffc851;
+}
