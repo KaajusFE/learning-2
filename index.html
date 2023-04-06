@@ -22,21 +22,27 @@
                 </label>
             </div>
             <div class="interfejs">
-                <label>
-                    <p>Odd --> </p> <input type="button" id="oddred" value="red"><input type="button" id="oddgreen" value="green"><input type="button" id="oddmagenta" value="magenta">
-                </label>
-                <label>
-                    <p>Even --> </p> <input type="button" id="evered" value="red"><input type="button" id="evegreen" value="green"><input type="button" id="evemagenta" value="magenta">
-                </label>
-                <label>
-                    <p>&Phi; --> </p> <input type="button" id="phired" value="red"><input type="button" id="phigreen" value="green"><input type="button" id="phimagenta" value="magenta">
-                </label>
-                <label>
-                    <p>All --> </p> <input type="button" id="allred" value="red"><input type="button" id="allgreen" value="green"><input type="button" id="allmagenta" value="magenta">
-                </label>
-            </div>
+                Odd ->
+                <input type="button" name ="np" value="red">
+                <input type="button" name ="np" value="green">
+                <input type="button" name ="np"value="magenta">
+                Even ->
+                <input type="button" class="parzyste" value="red">
+                <input type="button" class="parzyste" value="green">
+                <input type="button" class="parzyste" value="magenta">
+
+                &Phi; ->
+                <input type="button" class="phi" value="red">
+                <input type="button" class="phi" value="green">
+                <input type="button" class="phi" value="magenta">
+
+                All ->
+                <input type="button" class="wszystkie" value="red">
+                <input type="button" class="wszystkie" value="green">
+                <input type="button" class="wszystkie" value="magenta">
             <div>
                 <input type="button" value="Generuj ciąg" id="generuj_ciag">
+                <input type="button" id="blokada" value="Zablokuj">
             </div>
             
             </div>
@@ -49,6 +55,50 @@
 
     <script>
         document.getElementById("generuj_ciag").addEventListener("click", generuj);
+
+        //przyciski odd
+        let nieparzyste = document.getElementsByName("np");
+        for(let i = 0; i< 3; i++){
+            nieparzyste[i].addEventListener("click", color_odd);
+
+        }
+
+        //przyciski even
+        let parzyste = document.querySelectorAll(".parzyste");
+        
+        parzyste.forEach(przycisk => {
+
+            let kolor = przycisk.value;
+
+            przycisk.addEventListener("click", function() {
+                color_even(kolor);
+            });
+
+
+
+        });
+
+        //przyciski phi
+        let phi = document.getElementsByClassName("phi");
+        for(let ratio of phi){
+            let kolor = ratio.value;
+
+            ratio.addEventListener("click", () => {
+                color_phi(kolor);
+            })
+
+        }
+
+        // przyciski wszystkie
+        let wszystkie = document.querySelectorAll(".wszystkie");
+        wszystkie.forEach(przycisk => {
+            przycisk.addEventListener("click", color_all);
+        });
+
+
+        //przycisk blokady
+        document.querySelector("#blokada").addEventListener("click", access);
+
 
         function generuj(){
             let ile= document.getElementById("ile").value;
@@ -71,7 +121,7 @@
                 if(a % 2 == 1) ciag += "<div>01 -> <span class=\"odd\">"+ a + "</span></div>";
                 else ciag += "<div>01 -> <span class=\"even\">"+ a + "</span></div>";
 
-                if(a % 2 == 1) ciag += "<div>02 -> <span class=\"odd\">"+ b + "</span></div>";
+                if(b % 2 == 1) ciag += "<div>02 -> <span class=\"odd\">"+ b + "</span></div>";
                 else ciag += "<div>02 -> <span class=\"even\">"+ b + "</span></div>";
 
                 ratios += "<div>01 -> <span class=\"ratio\"> brak</span></div>";
@@ -91,20 +141,8 @@
                 
                 
                 }
-
-
-
-
-
-
-
                 document.querySelector("#ciag").innerHTML = ciag;
                 document.querySelector("#fi").innerHTML = ratios;
-
-
-
-
-
             }
 
 
@@ -112,9 +150,70 @@
 
         }
 
+        function color_odd(){
+            let kolor = this.value;
+            
+            let wyrazy_nieparzyste = document.getElementsByClassName("odd");
 
 
+            for(let wyraz of wyrazy_nieparzyste){
+                wyraz.style.color = kolor;
+            }
+        }
 
+        function color_even(kol){
+            let wyrazy_parzyste = document.querySelectorAll(".even");
+
+            for(let wyraz of wyrazy_parzyste){
+                wyraz.style.cssText = "color: " + kol + ";";
+            }
+
+        }
+
+        function color_phi(k){
+            let stosunki = document.querySelectorAll("#fi span");
+
+            for(ratio of stosunki){
+
+                ratio.removeAttribute("style");
+
+                if(k == "red"){
+                    ratio.classList.add("krew");
+                    ratio.classList.remove("trawa");
+                    ratio.classList.remove("pezet");
+                }
+                else if(k == "green"){
+                    ratio.classList.add("trawa");
+                    ratio.classList.remove("krew");
+                    ratio.classList.remove("pezet");
+                }
+                else{
+                    ratio.classList.remove("krew");
+                    ratio.classList.remove("trawa");
+                    ratio.classList.add("pezet");
+                }
+            }
+
+        }
+        function color_all(){
+            let kolor = this.value;
+            let wszystkie_liczby = document.getElementsByTagName("span");
+
+            for(let liczba of wszystkie_liczby){
+                liczba.style.cssText = "color: " + kolor + ";";
+            }
+        }
+
+        function access(){
+            let inputs = document.querySelectorAll("input:not(#blokada)");
+
+
+            for(let input of inputs){
+                input.toggleAttribute("disabled");
+            }
+            if(this.value == "Zablokuj") this.value = "Odblokuj";
+            else this.value = "Zablokuj";
+        }
 
 
     </script>
