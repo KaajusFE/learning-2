@@ -4,6 +4,7 @@ body{
 #ciag, #fi{
     display: inline-block;
     margin-right: 50px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .odd, .even{
